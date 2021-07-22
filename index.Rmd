@@ -21,8 +21,11 @@ library("RCurl")
 In this notebook, I will add two approaches to intersect accelerated elements (ARs) to HL genes. Using a previous approach, we showed that the proportion of noncoding regions acting on HL was higher than the proportion of coding regions. In that initial approach, we used information from each gene's intronic region to subset the number of ARs that overlapped each gene. As per reviewer's suggest, a substantial number of potential regulatory accelerated elements located outside the gene's body could be incorporated.
 
 To accurately determine which potential AR could regulate a HL gene, some extra information about chromatin conformation (such as 4C or Hi-C) should be included. This data is unfortunately inexistent for the inner ear. Therefore, we can think of two approximations that could be more inclusive to try to solve this point:
-1) We could use chromatin conformation data from other tissues, since it was shown that since the genome is organized into hierarchical 3D structures, such as topologically associated domains (TADs),  that  are  thought  to  bring distal  regulatory  elements  in  close  proximity  to  the  target promoter.
-2) We could define a gene regulatory domain definition, such as that applied in GREAT and other studies (Roscito et al. 2019): Each gene is assigned a basal regulatory domain of a minimum distance upstream and downstream of the TSS (regardless of other nearby genes). The gene regulatory domain is extended in both directions to the nearest gene's basal domain but no more than the maximum extension in one direction.
+
+1. We could use chromatin conformation data from other tissues, since it was shown that since the genome is organized into hierarchical 3D structures, such as topologically associated domains (**TADs**),  that  are  thought  to  bring distal  regulatory  elements  in  close  proximity  to  the  target promoter.
+
+2. We could define a **gene regulatory domain** definition, such as that applied in GREAT and other studies (Roscito et al. 2019): Each gene is assigned a basal regulatory domain of a minimum distance upstream and downstream of the TSS (regardless of other nearby genes). The gene regulatory domain is extended in both directions to the nearest gene's basal domain but no more than the maximum extension in one direction.
+
 
 Using these two approximations, we will calculate if the proportion of noncoding (potentially regulatory) accelerated elements (ARs) is higher than the proportion of changes in coding regions. 
 
@@ -148,7 +151,7 @@ genes_in_intronic_TSARs_v2_unique <- unique(genes_in_intronic_TSARs_v2$id)
 ```
 
 
- The percentage of unique HL genes with non-coding TSARs, when defining non-coding as intronic + non-coding exons is `r length(unique(genes_in_intronic_TSARs_v2_unique))*100/length(unique(gene_coord))`%. The total number of unique HL genes with non-coding TSARs in this case is: `r length(unique(genes_in_intronic_TSARs_v2$id))`.
+The percentage of unique HL genes with non-coding TSARs, when defining non-coding as intronic + non-coding exons is `r length(unique(genes_in_intronic_TSARs_v2_unique))*100/length(unique(gene_coord))`%. The total number of unique HL genes with non-coding TSARs in this case is: `r length(unique(genes_in_intronic_TSARs_v2$id))`.
 
 
 ## Associate using chromatin conformation data
@@ -203,12 +206,18 @@ ARs_in_HL_TADs_count
 
 The total number of genes that have elements located in their TAD (defined using Won 2016 data) is:  `r length(unique(ARs_in_HL_TADs$Gene_id))`.The above list includes all intronic ARs elements that are located within a gene's TAD. 
 
-Can we be certain that these AR elements are indeed regulating the genes? *No*. 
+Can we be certain that these AR elements are indeed regulating the genes? **No**. 
 
 This is a very liberal approximation that assumes the following:
-- All elements located within a gene's TAD can regulate the gene's promoter.
-- An element can overlap several genes at the same time, but all belonging to the same TAD. In this case, the element could potentially regulate all of those genes and even other genes that it does not overlap but belong to the same TAD. 
-- The TADs used correspond to human fetal brain data. We are assuming that there is some sort of conservation within tissues and these TADs could be therefore used to infer function in the inner ear tissue. 
+
+* All elements located within a gene's TAD can regulate the gene's promoter.
+
+*  An element can overlap several genes at the same time, but all belonging to the same TAD. In this case, the element could potentially regulate all of those genes and even other genes that it does not overlap but belong to the same TAD.
+
+* The TADs used correspond to human fetal brain data. We are assuming that there is some sort of conservation within tissues and these TADs could be therefore used to infer function in the inner ear tissue. 
+
+
+
 The list is probably the upper limit of ARs that could be intersecting the HL genes and a very rough/dirty approximation. This approximation sets the proportion of HL genes with ARs being `r length(unique(ARs_in_HL_TADs$Gene_id))*100/length(unique(gene_coord))`%
 
 
@@ -326,12 +335,15 @@ The original approach (only intersecting ARs to the intronic non-coding portions
 
 ### Proportion of coding elements overlapping HL genes
 In the original approach, we estimated that a higher proportion of coding elements overlapped HL genes. This was calculated in two ways:
-- 53 genes had PAML positive selection. This means ~12%. 
-- 63 genes had TSAR coding elements. This translates to: ~15%.
+
+* 53 genes had PAML positive selection. This means ~12%. 
+
+* 63 genes had TSAR coding elements. This translates to: ~15%.
+
 With any of those measures, the proportion of coding elements is higher in comparison to the original estimated approach of non coding elements (~3%) and the regulatory domain approach (~4%). The proportion is not higher when using the TAD approach (~22%), but, as noted above, this is probably a very dirty estimation of the upper limit of elements that could potentially regulate the HL genes.
 
 ## Conclusion
-Using a very conservative approach, it is estimated that the proportion of noncoding (potentially regulatory) accelerated elements (ARs) is higher than the proportion of changes in coding regions. The same pattern is observed using the regulatory domain approach. This pattern is not observed when using the TAD approach, which probably calculates the upper limit of ARs that could interact with the HL genes and assumes that Hi-C data from another tissue is interchangeable.
+Using th **original** conservative approach, it is estimated that the proportion of noncoding (potentially regulatory) accelerated elements (ARs) is higher than the proportion of changes in coding regions. The same pattern is observed using the **regulatory domain** approach. This pattern is not observed when using the **TAD** approach, which probably calculates the upper limit of ARs that could interact with the HL genes and assumes that Hi-C data from another tissue is interchangeable.
 ```{r table dat, echo=FALSE}
 #define data
 
