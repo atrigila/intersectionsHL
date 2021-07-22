@@ -1,0 +1,10 @@
+name: "Website for analysis"
+output_dir: "docs"
+navbar:
+  title: "HOME"
+  left: 
+    - text: "Intersections"
+      href: index.html
+output:
+  html_document:
+    theme: cosmo

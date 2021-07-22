@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Intersection of ARs to HL genes - Two additional approaches</title>
+
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HOME</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Intersections</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Intersection of ARs to HL genes - Two additional approaches</h1>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>In this notebook, I will add two approaches to intersect accelerated elements (ARs) to HL genes. Using a previous approach, we showed that the proportion of noncoding regions acting on HL was higher than the proportion of coding regions. In that initial approach, we used information from each gene’s intronic region to subset the number of ARs that overlapped each gene. As per reviewer’s suggest, a substantial number of potential regulatory accelerated elements located outside the gene’s body could be incorporated.</p>
+<p>To accurately determine which potential AR could regulate a HL gene, some extra information about chromatin conformation (such as 4C or Hi-C) should be included. This data is unfortunately inexistent for the inner ear. Therefore, we can think of two approximations that could be more inclusive to try to solve this point: 1) We could use chromatin conformation data from other tissues, since it was shown that since the genome is organized into hierarchical 3D structures, such as topologically associated domains (TADs), that are thought to bring distal regulatory elements in close proximity to the target promoter. 2) We could define a gene regulatory domain definition, such as that applied in GREAT and other studies (Roscito et al. 2019): Each gene is assigned a basal regulatory domain of a minimum distance upstream and downstream of the TSS (regardless of other nearby genes). The gene regulatory domain is extended in both directions to the nearest gene’s basal domain but no more than the maximum extension in one direction.</p>
+<p>Using these two approximations, we will calculate if the proportion of noncoding (potentially regulatory) accelerated elements (ARs) is higher than the proportion of changes in coding regions.</p>
+<div class="figure">
+<img src="associations.jpg" alt="" />
+<p class="caption">Figure 1. Simple scheme summarizing an approximation of the three approaches</p>
+</div>
+</div>
+<div id="read-data" class="section level2">
+<h2>Read data</h2>
+<p>Read TADs from fetal human cortical plate <a href="https://www.nature.com/articles/nature19847">(Won et al. 2016)</a>, read HL gene coordinates, read ARs coordinates.</p>
+<pre class="r"><code>data &lt;- read.table(&quot;TAD_fetalCP_Won2016.bed&quot;, col.names=c(&quot;chr&quot;, &quot;start&quot;, &quot;end&quot;))
+tad &lt;- with(data, GRanges(chr, IRanges(start, end)))
+genome(tad) &lt;- &quot;hg19&quot;
+tad</code></pre>
+<pre><code>## GRanges object with 2286 ranges and 0 metadata columns:
+##          seqnames              ranges strand
+##             &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt;
+##      [1]    chr10       40000-1080000      *
+##      [2]    chr10     1120000-3160000      *
+##      [3]    chr10     3160000-4840000      *
+##      [4]    chr10     4880000-5440000      *
+##      [5]    chr10     5480000-5960000      *
+##      ...      ...                 ...    ...
+##   [2282]     chr9 136640000-136920000      *
+##   [2283]     chr9 137000000-138400000      *
+##   [2284]     chr9 138440000-139240000      *
+##   [2285]     chr9 139360000-139600000      *
+##   [2286]     chr9 139640000-140480000      *
+##   -------
+##   seqinfo: 23 sequences from hg19 genome; no seqlengths</code></pre>
+<p>Read HL gene coordinates (One BED record was created per whole gene using the transcriptional start site and the transcription end values from the knownCanonical table from the hg19 UCSC Genes track. This canonical transcript reports the longest coding sequence for each entry and includes all the non-coding introns.)</p>
+<pre class="r"><code>gene_coord_table &lt;- read.table(&quot;genecoords.txt&quot;, header = TRUE)
+gene_coord &lt;- with(gene_coord_table, GRanges(chr, IRanges(start, end), id=gene_name))
+genome(gene_coord) &lt;- &quot;hg19&quot;
+gene_coord</code></pre>
+<pre><code>## GRanges object with 420 ranges and 1 metadata column:
+##         seqnames              ranges strand |          id
+##            &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##     [1]     chr2   69685126-69870977      * |        AAK1
+##     [2]     chrX 108884563-108976621      * |       ACSL4
+##     [3]    chr17   79476996-79479892      * |       ACTG1
+##     [4]     chr2 158592957-158732374      * |       ACVR1
+##     [5]     chr2 148602569-148688393      * |      ACVR2A
+##     ...      ...                 ...    ... .         ...
+##   [416]     chr7   73082173-73086440      * |      VPS37D
+##   [417]    chr16   69345286-69358946      * |       VPS4A
+##   [418]    chr16   30103634-30107537      * |       YPEL3
+##   [419]     chr2 219502639-219524355      * |      ZNF142
+##   [420]    chr15   85144248-85166947      * |      ZSCAN2
+##   -------
+##   seqinfo: 24 sequences from hg19 genome; no seqlengths</code></pre>
+<p>The original TSAR database was downloaded from <a href="https://academic.oup.com/mbe/article/33/4/1008/2579545#supplementary-data">Supplementary Table S1 of Holloway et al. 2016</a>. The reported TSARs were classified as coding if they overlapped an exon. Exons were obtained by exporting a BED file with hg19 UCSC Table Browser [UCSC Genes track: UCSC Genes &gt; knownGene table &gt; output as BED &gt; Exons]. The rest of the TSARs were considered non-coding.</p>
+<pre class="r"><code>all_TSARs &lt;- read.table(&quot;S1_Holloway.txt&quot;, header = TRUE)
+exons &lt;- read.table(&quot;Exons.bed&quot;, col.names=c(&quot;chr&quot;, &quot;start&quot;, &quot;end&quot;, &quot;id&quot;, &quot;value&quot;, &quot;strand&quot;))
+
+# Convert to Granges
+allTSARs_coord &lt;- with(all_TSARs, GRanges(chr, IRanges(start, end), id=TSAR))
+genome(allTSARs_coord) &lt;- &quot;hg19&quot;
+
+exons_coord &lt;- with(exons, GRanges(chr, IRanges(start, end), id=id))
+genome(exons_coord) &lt;- &quot;hg19&quot;</code></pre>
+<p>We subset each group of TSARs into coding and non-coding.</p>
+<pre class="r"><code># Transform to granges and obtain TSARs that intersect exons
+my_overlaps &lt;- findOverlaps(query = exons_coord, subject = allTSARs_coord)
+
+my_query &lt;- queryHits(my_overlaps)
+my_subject &lt;- subjectHits(my_overlaps)
+
+# Subset exonic and intronic TSARs
+
+exonic_TSARs &lt;- data.frame(chr = allTSARs_coord[my_subject]@seqnames,
+           start = allTSARs_coord[my_subject]@ranges@start,
+           end = allTSARs_coord[my_subject]@ranges@start + allTSARs_coord[my_subject]@ranges@width,
+           id = allTSARs_coord[my_subject]$id)
+
+exonic_TSARs &lt;- exonic_TSARs %&gt;% unique() # Data Frame
+intronic_TSARs &lt;- all_TSARs %&gt;% anti_join(exonic_TSARs,by = c(&quot;TSAR&quot; = &quot;id&quot;)) #Data Frame</code></pre>
+<p>Transform non-coding accelerated regions (ARs) in Granges object.</p>
+<pre class="r"><code># Transform intronic_TSARs dataframe to GRanges object
+intronic_TSARs_coord &lt;- with(intronic_TSARs, GRanges(chr, IRanges(start, end), id=TSAR))
+intronic_TSARs_coord</code></pre>
+<pre><code>## GRanges object with 1672 ranges and 1 metadata column:
+##          seqnames              ranges strand |          id
+##             &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##      [1]     chr1   10965114-10965417      * |   TSAR.1504
+##      [2]     chr1   10965441-10966010      * |   TSAR.3594
+##      [3]     chr1   10976047-10976469      * |   TSAR.2388
+##      [4]     chr1   11001443-11001798      * |   TSAR.2018
+##      [5]     chr1   18932242-18932568      * |   TSAR.4026
+##      ...      ...                 ...    ... .         ...
+##   [1668]     chrX 129115929-129116379      * |   TSAR.2507
+##   [1669]     chrX 132189181-132189529      * |   TSAR.1591
+##   [1670]     chrX 136353414-136354536      * |   TSAR.3673
+##   [1671]     chrX 139332200-139333313      * |   TSAR.0694
+##   [1672]     chrX 139521782-139521996      * |   TSAR.1431
+##   -------
+##   seqinfo: 23 sequences from an unspecified genome; no seqlengths</code></pre>
+</div>
+<div id="associate-with-the-original-approach" class="section level2">
+<h2>Associate with the original approach</h2>
+<p>Intersect HL genes with intronic_TSARs, retrieve intronic_TSARs for each gene.</p>
+<pre class="r"><code>my_overlaps &lt;- findOverlaps(query = gene_coord, subject = intronic_TSARs_coord)
+
+my_query &lt;- queryHits(my_overlaps)
+my_subject &lt;- subjectHits(my_overlaps)
+
+# chr,start,end from TAD, id from gene
+
+genes_in_intronic_TSARs &lt;- data.frame(chr = intronic_TSARs_coord[my_subject]@seqnames,
+           start = intronic_TSARs_coord[my_subject]@ranges@start,
+           end = intronic_TSARs_coord[my_subject]@ranges@start + intronic_TSARs_coord[my_subject]@ranges@width,
+           id = gene_coord[my_query]$id)</code></pre>
+<p>The total number of unique HL genes with non-coding TSARs is: 14. The percentage of HL genes with non-coding TSARs, when defining non-coding as only intronic elements is 3.3333333%. This is a very conservative estimation, which lacks all of those regulatory elements in 3UTRs or 5UTRs. We therefore can do the same but, this time, consider those intersecting only coding exons as coding TSARs and the rest as non-coding.</p>
+<pre class="r"><code># Read coding exons and transform into granges
+coding_exons &lt;- read.table(&quot;CodingExons.bed&quot;, col.names=c(&quot;chr&quot;, &quot;start&quot;, &quot;end&quot;, &quot;id&quot;, &quot;value&quot;, &quot;strand&quot;))
+codingexons_coord &lt;- with(coding_exons, GRanges(chr, IRanges(start, end), id=id))
+
+my_overlaps &lt;- findOverlaps(query = codingexons_coord, subject = allTSARs_coord)
+
+my_query &lt;- queryHits(my_overlaps)
+my_subject &lt;- subjectHits(my_overlaps)
+
+# Subset into coding exons TSARs and intronic/non-coding exonic TSARs
+
+codingexons_TSARs &lt;- data.frame(chr = allTSARs_coord[my_subject]@seqnames,
+           start = allTSARs_coord[my_subject]@ranges@start,
+           end = allTSARs_coord[my_subject]@ranges@start + allTSARs_coord[my_subject]@ranges@width,
+           id = allTSARs_coord[my_subject]$id)
+
+codingexons_TSARs &lt;- codingexons_TSARs %&gt;% unique()
+intronic_TSARs_2 &lt;- all_TSARs %&gt;% anti_join(codingexons_TSARs,by = c(&quot;TSAR&quot; = &quot;id&quot;))
+
+## Intronic TSARs v2: intersection with HL Genes
+
+intronic_TSARs_2 &lt;- with(intronic_TSARs_2, GRanges(chr, IRanges(start, end), id=&quot;TSAR&quot;))
+my_overlaps &lt;- findOverlaps(query = gene_coord, subject = intronic_TSARs_2)
+
+my_query &lt;- queryHits(my_overlaps)
+my_subject &lt;- subjectHits(my_overlaps)
+
+genes_in_intronic_TSARs_v2 &lt;- data.frame(chr = intronic_TSARs_2[my_subject]@seqnames,
+           start = intronic_TSARs_2[my_subject]@ranges@start,
+           end = intronic_TSARs_2[my_subject]@ranges@start + intronic_TSARs_2[my_subject]@ranges@width,
+           id = gene_coord[my_query]$id)
+
+genes_in_intronic_TSARs_v2_unique &lt;- unique(genes_in_intronic_TSARs_v2$id)</code></pre>
+<p>The percentage of unique HL genes with non-coding TSARs, when defining non-coding as intronic + non-coding exons is 4.7619048%. The total number of unique HL genes with non-coding TSARs in this case is: 20.</p>
+</div>
+<div id="associate-using-chromatin-conformation-data" class="section level2">
+<h2>Associate using chromatin conformation data</h2>
+<p>Intersect HL genes with TADs, retrieve TADs for each gene.</p>
+<pre class="r"><code>my_overlaps &lt;- findOverlaps(query = gene_coord, subject = tad)
+
+my_query &lt;- queryHits(my_overlaps)
+my_subject &lt;- subjectHits(my_overlaps)
+
+# chr,start,end from TAD, id from gene
+
+genes_in_TADs &lt;- data.frame(chr = tad[my_subject]@seqnames,
+           start = tad[my_subject]@ranges@start,
+           end = tad[my_subject]@ranges@start + tad[my_subject]@ranges@width,
+           id = gene_coord[my_query]$id)
+
+genes_in_TADs &lt;-  with(genes_in_TADs, GRanges(chr, IRanges(start, end), id=id))</code></pre>
+<p>Now that we have the TAD region for each set of HL genes, we will intersect these HL-TADs with the ARs coordinates, to get final set of ARs that are located within HL-TADs.</p>
+<pre class="r"><code># Find intersection between ARs and TADs location for each gene
+tads_ars_overlaps &lt;- findOverlaps(query = intronic_TSARs_coord, subject = genes_in_TADs)
+
+my_query &lt;- queryHits(tads_ars_overlaps)
+my_subject &lt;- subjectHits(tads_ars_overlaps)
+
+# Report chr, start, end from TADs and id from ARs and Gene
+
+ARs_in_HL_TADs &lt;- data.frame(chr = genes_in_TADs[my_subject]@seqnames,
+           start = genes_in_TADs[my_subject]@ranges@start,
+           end = genes_in_TADs[my_subject]@ranges@start + genes_in_TADs[my_subject]@ranges@width,
+           AR_id = intronic_TSARs_coord[my_query]$id,
+           Gene_id = genes_in_TADs[my_subject]$id)</code></pre>
+<p>Finally, we will count the number of AR elements per HL gene.</p>
+<pre class="r"><code>ARs_in_HL_TADs_count &lt;- ARs_in_HL_TADs %&gt;% group_by(Gene_id) %&gt;% summarize(count = n()) %&gt;% arrange(desc(count))
+ARs_in_HL_TADs_count</code></pre>
+<pre><code>## # A tibble: 89 x 2
+##    Gene_id count
+##    &lt;chr&gt;   &lt;int&gt;
+##  1 SFXN3      25
+##  2 ADGRV1     10
+##  3 DLG5        8
+##  4 TBX4        8
+##  5 DIAPH3      7
+##  6 SUGT1       7
+##  7 ACVR2A      6
+##  8 GATA2       6
+##  9 H1FX        6
+## 10 NR6A1       6
+## # ... with 79 more rows</code></pre>
+<p>The total number of genes that have elements located in their TAD (defined using Won 2016 data) is: 89.The above list includes all intronic ARs elements that are located within a gene’s TAD.</p>
+<p>Can we be certain that these AR elements are indeed regulating the genes? <em>No</em>.</p>
+<p>This is a very liberal approximation that assumes the following: - All elements located within a gene’s TAD can regulate the gene’s promoter. - An element can overlap several genes at the same time, but all belonging to the same TAD. In this case, the element could potentially regulate all of those genes and even other genes that it does not overlap but belong to the same TAD. - The TADs used correspond to human fetal brain data. We are assuming that there is some sort of conservation within tissues and these TADs could be therefore used to infer function in the inner ear tissue. The list is probably the upper limit of ARs that could be intersecting the HL genes and a very rough/dirty approximation. This approximation sets the proportion of HL genes with ARs being 21.1904762%</p>
+<p>The above calculation was set for intronic TSARs only. We can do the same association but considering intronic + non-coding exonic TSARs. The total number of genes that have elements located in their TAD (defined using Won 2016 data) is: 127.The above list includes all intronic ARs + non-coding exonic elements that are located within a gene’s TAD. This approximation sets the proportion of HL genes with ARs (intronic ARs + non-coding exonic) being 30.2380952%</p>
+</div>
+<div id="associate-using-a-gene-regulatory-domain-definition" class="section level2">
+<h2>Associate using a gene regulatory domain definition</h2>
+<p>Definition of gene regulatory domain (GREAT <a href="http://great.stanford.edu/public/html/" class="uri">http://great.stanford.edu/public/html/</a>): “Each gene is assigned a basal regulatory domain of a minimum distance upstream and downstream of the TSS (regardless of other nearby genes). The gene regulatory domain is extended in both directions to the nearest gene’s basal domain but no more than the maximum extension in one direction.”</p>
+<p>The basal default settings considers: Proximal (5.0kb upstream, 1.0 kb downstream).</p>
+<p>We will replicate these settings in our data and re-associate the ARs to the HL genes. We first need to obtain putative TSS for each of our HL genes: we’ll use data from the EPD database (UCSC track: [hub_24769_epdnew6] Human promoters from EPDnew version 006)</p>
+<pre class="r"><code>epd_in &lt;- read.table(&quot;epd_006.txt&quot;, header = TRUE)
+epd &lt;- epd_in %&gt;% select(&quot;chr&quot; = chrom, &quot;start&quot; = chromStart, &quot;end&quot; = chromEnd, strand, name)
+epd$name &lt;- str_replace(epd_in$name, &quot;_[:digit:]+&quot; ,&quot;&quot;)
+
+# Basal extension:
+for (row in 1:nrow(epd)){
+    epd$start[row] &lt;- epd$start[row] - 5000   
+    epd$end[row] &lt;- epd$end[row] + 1000 
+}
+
+
+# Extension to up to 1000kb:
+for (row in 1:nrow(epd)){
+    epd$start[row] &lt;- epd$start[row] - 100000   
+    epd$end[row] &lt;- epd$end[row] + 100000 
+}</code></pre>
+<p>We now have a data frame with all TSS coordinates extended in a basal regulatory domain (proximal, 5.0kb upstream, 1.0 kb downstream), plus an extension of up to 1000kb. We will filter it based on the HL genes, to get the final HL genes gene regulatory domain definition.</p>
+<pre class="r"><code>HL_regulatorydomain &lt;- epd %&gt;% filter(name %in% gene_coord_table$gene_name)
+
+
+HL_regulatorydomain &lt;- with(HL_regulatorydomain, GRanges(chr, IRanges(start, end),strand, name=name))
+genome(HL_regulatorydomain) &lt;- &quot;hg19&quot;</code></pre>
+<p>Now we use this information to intersect regulatory domains with ARs.</p>
+<pre class="r"><code>my_overlaps &lt;- findOverlaps(query = HL_regulatorydomain, subject = intronic_TSARs_coord)
+
+my_query &lt;- queryHits(my_overlaps)
+my_subject &lt;- subjectHits(my_overlaps)
+
+# Get gene name and ARs intersecting its regulatory domain
+
+genes_regdom_ARs&lt;- data.frame(
+           gene = HL_regulatorydomain[my_query]$name,
+           AR = intronic_TSARs_coord[my_query]$id)
+
+# Remove duplicates, group by gene, count ARs
+Genes_Numb_ARs &lt;- genes_regdom_ARs %&gt;% distinct() %&gt;% group_by(gene) %&gt;% summarize(count = n()) %&gt;% arrange(desc(count))</code></pre>
+<p>Using this approach the total number of genes that have elements located in their regulatory domain (defined as: basal Proximal (5.0kb upstream, 1.0 kb downstream) + 1000kb each side) is: 20. This assumes the following: - The basal domain gene regulatory domain is extended 1000kb each side. This could be greater than the whole gene’s size. - The whole gene regulatory domain could overlap other gene regulatory domains. We cannot be certain if one AR element is exclusive to other element or if there are boundary/isolating elements impeding regulatory domains to overlap. This approximation sets the proportion of HL genes with ARs being 4.7619048%. The total number of HL genes with non-coding TSARs is 20.</p>
+<p>We can do the same association but considering intronic + non-coding exonic TSARs.This approximation sets the proportion of HL genes with ARs being 6.6666667%</p>
+</div>
+<div id="comparison-to-the-original-approach" class="section level2">
+<h2>Comparison to the original approach</h2>
+<div id="proportion-of-non-coding-elements-overlapping-hl-genes" class="section level3">
+<h3>Proportion of non-coding elements overlapping HL genes</h3>
+<p>The original approach (only intersecting ARs to the intronic non-coding portions of a gene) estimated a total of 14 HL genes with non-coding ARs, which translates to a proportion of ~3%. The gene regulatory domain approach estimates a proportion of ~4%, while the upper limit using the TAD approach is estimated to be ~22%.</p>
+</div>
+<div id="proportion-of-coding-elements-overlapping-hl-genes" class="section level3">
+<h3>Proportion of coding elements overlapping HL genes</h3>
+<p>In the original approach, we estimated that a higher proportion of coding elements overlapped HL genes. This was calculated in two ways: - 53 genes had PAML positive selection. This means ~12%. - 63 genes had TSAR coding elements. This translates to: ~15%. With any of those measures, the proportion of coding elements is higher in comparison to the original estimated approach of non coding elements (~3%) and the regulatory domain approach (~4%). The proportion is not higher when using the TAD approach (~22%), but, as noted above, this is probably a very dirty estimation of the upper limit of elements that could potentially regulate the HL genes.</p>
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>Using a very conservative approach, it is estimated that the proportion of noncoding (potentially regulatory) accelerated elements (ARs) is higher than the proportion of changes in coding regions. The same pattern is observed using the regulatory domain approach. This pattern is not observed when using the TAD approach, which probably calculates the upper limit of ARs that could interact with the HL genes and assumes that Hi-C data from another tissue is interchangeable.</p>
+<pre><code>## # A tibble: 8 x 3
+##   approach          type                       percentage
+##   &lt;chr&gt;             &lt;chr&gt;                           &lt;dbl&gt;
+## 1 original          intronic                         3.33
+## 2 original          intronic+non_coding exonic       4.76
+## 3 TAD               intronic                        21.2 
+## 4 TAD               intronic+non_coding exonic      30.2 
+## 5 regulatory domain intronic                         4.76
+## 6 regulatory domain intronic+non_coding exonic       6.67
+## 7 PAML              coding                          12.6 
+## 8 phyloP            coding                          15</code></pre>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p><a href="https://davetang.org/muse/2013/01/02/iranges-and-genomicranges/" class="uri">https://davetang.org/muse/2013/01/02/iranges-and-genomicranges/</a></p>
+<p>Holloway, A. K., Bruneau, B. G., Sukonnik, T., Rubenstein, J. L., &amp; Pollard, K. S. (2016). Accelerated evolution of enhancer hotspots in the mammal ancestor. Molecular biology and evolution, 33(4), 1008-1018.</p>
+<p>Won, H., de La Torre-Ubieta, L., Stein, J. L., Parikshak, N. N., Huang, J., Opland, C. K., … &amp; Geschwind, D. H. (2016). Chromosome conformation elucidates regulatory relationships in developing human brain. Nature, 538(7626), 523-527.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
