@@ -266,8 +266,8 @@ $(document).ready(function () {
 <p>In this notebook, I will add two approaches to intersect accelerated elements (ARs) to HL genes. Using a previous approach, we showed that the proportion of noncoding regions acting on HL was higher than the proportion of coding regions. In that initial approach, we used information from each gene’s intronic region to subset the number of ARs that overlapped each gene. As per reviewer’s suggest, a substantial number of potential regulatory accelerated elements located outside the gene’s body could be incorporated.</p>
 <p>To accurately determine which potential AR could regulate a HL gene, some extra information about chromatin conformation (such as 4C or Hi-C) should be included. This data is unfortunately inexistent for the inner ear. Therefore, we can think of two approximations that could be more inclusive to try to solve this point:</p>
 <ol style="list-style-type: decimal">
-<li><p>We could use chromatin conformation data from other tissues, since it was shown that since the genome is organized into hierarchical 3D structures, such as topologically associated domains (<strong>TADs</strong>), that are thought to bring distal regulatory elements in close proximity to the target promoter.</p></li>
-<li><p>We could define a <strong>gene regulatory domain</strong> definition, such as that applied in GREAT and other studies (Roscito et al. 2019): Each gene is assigned a basal regulatory domain of a minimum distance upstream and downstream of the TSS (regardless of other nearby genes). The gene regulatory domain is extended in both directions to the nearest gene’s basal domain but no more than the maximum extension in one direction.</p></li>
+<li><p>We could use chromatin conformation data from other tissues, since it was shown that since the genome is organized into hierarchical 3D structures, such as topologically associated domains (<strong>TADs</strong>), that are thought to bring distal regulatory elements in close proximity to the target promoter. These structures are thought to be highly conserved between cell types (Rao et al. 2014; Schmitt et al. 2016; Sauerwald &amp; Kingsford 2018; McArthur &amp; Capra 2021) and possibly even species (Dixon et al. 2012)</p></li>
+<li><p>We could define a <strong>gene regulatory domain</strong> definition, such as that applied in GREAT and other studies (Roscito et al. 2019): Each gene is assigned a basal regulatory domain of a minimum distance upstream and downstream of the TSS (regardless of other nearby genes). The gene regulatory domain is extended in both directions to the nearest gene’s basal domain but no more than the maximum extension in one direction. Distance-based methods have been recently regarded as good approaches to find enhancer-gene pairs across cell types without previous data, even outperforming machine-learning based methods (Moore et al. 2020).</p></li>
 </ol>
 <p>Using these two approximations, we will calculate if the proportion of noncoding (potentially regulatory) accelerated elements (ARs) is higher than the proportion of changes in coding regions.</p>
 <p><img src="associations.jpg" alt="Figure 1. Simple scheme summarizing an approximation of the three approaches" /> ## Read data</p>
@@ -509,8 +509,12 @@ genes_regdom_ARs&lt;- data.frame(
 
 # Remove duplicates, group by gene, count ARs
 Genes_Numb_ARs &lt;- genes_regdom_ARs %&gt;% distinct() %&gt;% group_by(gene) %&gt;% summarize(count = n()) %&gt;% arrange(desc(count))</code></pre>
-<p>Using this approach the total number of genes that have elements located in their regulatory domain (defined as: basal Proximal (5.0kb upstream, 1.0 kb downstream) + 1000kb each side) is: 20. This assumes the following: - The basal domain gene regulatory domain is extended 1000kb each side. This could be greater than the whole gene’s size. - The whole gene regulatory domain could overlap other gene regulatory domains. We cannot be certain if one AR element is exclusive to other element or if there are boundary/isolating elements impeding regulatory domains to overlap. This approximation sets the proportion of HL genes with ARs being 4.7619048%. The total number of HL genes with non-coding TSARs is 20.</p>
-<p>We can do the same association but considering intronic + non-coding exonic TSARs.This approximation sets the proportion of HL genes with ARs being 6.6666667%</p>
+<p>Using this approach the total number of genes that have elements located in their regulatory domain (defined as: basal Proximal (5.0kb upstream, 1.0 kb downstream) + 1000kb each side) is: 20. This assumes the following:</p>
+<ul>
+<li><p>The basal domain gene regulatory domain is extended 1000kb each side. This could be greater than the whole gene’s size.</p></li>
+<li><p>The whole gene regulatory domain could overlap other gene regulatory domains. We cannot be certain if one AR element is exclusive to other element or if there are boundary/isolating elements impeding regulatory domains to overlap. This approximation sets the proportion of HL genes with ARs being 4.7619048%. The total number of HL genes with non-coding TSARs is 20.</p></li>
+</ul>
+<p>We can do the same association but considering intronic + non-coding exonic TSARs. This approximation sets the proportion of HL genes with ARs being 6.6666667%</p>
 </div>
 <div id="comparison-to-the-original-approach" class="section level2">
 <h2>Comparison to the original approach</h2>
@@ -522,31 +526,77 @@ Genes_Numb_ARs &lt;- genes_regdom_ARs %&gt;% distinct() %&gt;% group_by(gene) %&
 <h3>Proportion of coding elements overlapping HL genes</h3>
 <p>In the original approach, we estimated that a higher proportion of coding elements overlapped HL genes. This was calculated in two ways:</p>
 <ul>
-<li><p>53 genes had PAML positive selection. This means ~12%.</p></li>
-<li><p>63 genes had TSAR coding elements. This translates to: ~15%.</p></li>
+<li><p>53 out of 320 genes had PAML positive selection. This means 16.5625%.</p></li>
+<li><p>63 out of 420 genes had TSAR coding elements. This translates to: 15%.</p></li>
 </ul>
 <p>With any of those measures, the proportion of coding elements is higher in comparison to the original estimated approach of non coding elements (~3%) and the regulatory domain approach (~4%). The proportion is not higher when using the TAD approach (~22%), but, as noted above, this is probably a very dirty estimation of the upper limit of elements that could potentially regulate the HL genes.</p>
 </div>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
-<p>Using th <strong>original</strong> conservative approach, it is estimated that the proportion of noncoding (potentially regulatory) accelerated elements (ARs) is higher than the proportion of changes in coding regions. The same pattern is observed using the <strong>regulatory domain</strong> approach. This pattern is not observed when using the <strong>TAD</strong> approach, which probably calculates the upper limit of ARs that could interact with the HL genes and assumes that Hi-C data from another tissue is interchangeable.</p>
-<pre><code>## # A tibble: 8 x 3
-##   approach          type                       percentage
-##   &lt;chr&gt;             &lt;chr&gt;                           &lt;dbl&gt;
-## 1 original          intronic                         3.33
-## 2 original          intronic+non_coding exonic       4.76
-## 3 TAD               intronic                        21.2 
-## 4 TAD               intronic+non_coding exonic      30.2 
-## 5 regulatory domain intronic                         4.76
-## 6 regulatory domain intronic+non_coding exonic       6.67
-## 7 PAML              coding                          12.6 
-## 8 phyloP            coding                          15</code></pre>
+<p>Using th <strong>original</strong> conservative approach, it is estimated that the proportion of noncoding (potentially regulatory) accelerated elements (ARs) is lower than the proportion of changes in coding regions. The same pattern is observed using the <strong>regulatory domain</strong> approach. This pattern is not observed when using the <strong>TAD</strong> approach, which probably calculates the upper limit of ARs that could interact with the HL genes and assumes that Hi-C data from another tissue is interchangeable.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">approach</th>
+<th align="left">type</th>
+<th align="right">percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">original</td>
+<td align="left">intronic</td>
+<td align="right">3.333</td>
+</tr>
+<tr class="even">
+<td align="left">original</td>
+<td align="left">intronic+non_coding exonic</td>
+<td align="right">4.762</td>
+</tr>
+<tr class="odd">
+<td align="left">TAD</td>
+<td align="left">intronic</td>
+<td align="right">21.190</td>
+</tr>
+<tr class="even">
+<td align="left">TAD</td>
+<td align="left">intronic+non_coding exonic</td>
+<td align="right">30.238</td>
+</tr>
+<tr class="odd">
+<td align="left">regulatory domain</td>
+<td align="left">intronic</td>
+<td align="right">4.762</td>
+</tr>
+<tr class="even">
+<td align="left">regulatory domain</td>
+<td align="left">intronic+non_coding exonic</td>
+<td align="right">6.667</td>
+</tr>
+<tr class="odd">
+<td align="left">PAML</td>
+<td align="left">coding</td>
+<td align="right">16.562</td>
+</tr>
+<tr class="even">
+<td align="left">phyloP</td>
+<td align="left">coding</td>
+<td align="right">15.000</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>
 <p><a href="https://davetang.org/muse/2013/01/02/iranges-and-genomicranges/" class="uri">https://davetang.org/muse/2013/01/02/iranges-and-genomicranges/</a></p>
+<p>Dixon JR, Selvaraj S, Yue F, et al. Topological domains in mammalian genomes identified by analysis of chromatin interactions. Nature. 2012;485(7398):376-380. Published 2012 Apr 11. <a href="doi:10.1038/nature11082" class="uri">doi:10.1038/nature11082</a></p>
 <p>Holloway, A. K., Bruneau, B. G., Sukonnik, T., Rubenstein, J. L., &amp; Pollard, K. S. (2016). Accelerated evolution of enhancer hotspots in the mammal ancestor. Molecular biology and evolution, 33(4), 1008-1018.</p>
+<p>McArthur E, Capra JA. Topologically associating domain boundaries that are stable across diverse cell types are evolutionarily constrained and enriched for heritability. Am J Hum Genet. 2021 Feb 4;108(2):269-283. doi: 10.1016/j.ajhg.2021.01.001. PMID: 33545030; PMCID: PMC7895846.</p>
+<p>Moore JE, Pratt HE, Purcaro MJ, Weng Z. A curated benchmark of enhancer-gene interactions for evaluating enhancer-target gene prediction methods. Genome Biol. 2020 Jan 22;21(1):17. doi: 10.1186/s13059-019-1924-8. PMID: 31969180; PMCID: PMC6977301.</p>
+<p>Rao SS, Huntley MH, Durand NC, Stamenova EK, Bochkov ID, Robinson JT, Sanborn AL, Machol I, Omer AD, Lander ES, Aiden EL. A 3D map of the human genome at kilobase resolution reveals principles of chromatin looping. Cell. 2014 Dec 18;159(7):1665-80. doi: 10.1016/j.cell.2014.11.021. Epub 2014 Dec 11. Erratum in: Cell. 2015 Jul 30;162(3):687-8. PMID: 25497547; PMCID: PMC5635824.</p>
+<p>Sauerwald N, Kingsford C. Quantifying the similarity of topological domains across normal and cancer human cell types. Bioinformatics. 2018;34(13):i475-i483. <a href="doi:10.1093/bioinformatics/bty265" class="uri">doi:10.1093/bioinformatics/bty265</a></p>
+<p>Schmitt AD, Hu M, Jung I, Xu Z, Qiu Y, Tan CL, Li Y, Lin S, Lin Y, Barr CL, Ren B. A Compendium of Chromatin Contact Maps Reveals Spatially Active Regions in the Human Genome. Cell Rep. 2016 Nov 15;17(8):2042-2059. doi: 10.1016/j.celrep.2016.10.061. PMID: 27851967; PMCID: PMC5478386.</p>
 <p>Won, H., de La Torre-Ubieta, L., Stein, J. L., Parikshak, N. N., Huang, J., Opland, C. K., … &amp; Geschwind, D. H. (2016). Chromosome conformation elucidates regulatory relationships in developing human brain. Nature, 538(7626), 523-527.</p>
 </div>
 
